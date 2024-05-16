@@ -1,8 +1,13 @@
 # OXSA (Oxford Spectroscopy Analysis) toolbox
 This folder contains the OXSA (Oxford Spectroscopy Analysis) toolbox for developing pipelines for spectroscopy analysis. It includes code for loading Siemens spectroscopy data, and for spectral fitting/analysis.
 
+*************************************************************************************************
+
 This Forked Repository is editted for implementation with deuterium (<sup>2</sup>H) Philips data.
+
 For all edits from main OXSA-AMARES contact: daniel.cocking@nottingham.ac.uk
+
+*************************************************************************************************
 
 Version: 2.0
 Release date: 2018-05-30
