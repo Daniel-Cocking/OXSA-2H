@@ -1,6 +1,21 @@
 # OXSA (Oxford Spectroscopy Analysis) toolbox
 This folder contains the OXSA (Oxford Spectroscopy Analysis) toolbox for developing pipelines for spectroscopy analysis. It includes code for loading Siemens spectroscopy data, and for spectral fitting/analysis.
 
+*************************************************************************************************
+
+This Forked Repository is editted for implementation with deuterium (<sup>2</sup>H) Philips data.
+
+Changes Made:
+
+- Added Prior Knowledge files for 2H work (Natural Abundance, Loaded with D2O, glucose ingested with 2 and 7 labels bulk and CSI spectra)
+- Added 'quiet' option into amaresFit.m which supresses print of fitting results and error messages
+- Adapted specFft to not half the initial t = 0 point in FID, whilst this is correct it was found easier to keep track of outside of FT for use when pre-processing, de-noising etc.
+- Added grouped Chemical Shifts with relative chemical shifts to createModelConstraints.m (added G_ChemShift) to checkConstraints.m)
+
+For all edits from main OXSA-AMARES contact: daniel.cocking@nottingham.ac.uk
+
+*************************************************************************************************
+
 Version: 2.0
 Release date: 2018-05-30
 
