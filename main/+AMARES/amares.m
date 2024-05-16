@@ -198,9 +198,9 @@ expParams.offset = offset;
 
 %% DC Correction
 % Fit Line to last 25% of points to do a DC correction.
-p = polyfit(spec.timeAxis(end-round(size(spec.timeAxis,1)*0.25):end),(dataFID(end-round(size(spec.timeAxis,1)*0.25):end)),0);
-
-dataFID = dataFID - p;
+% p = polyfit(spec.timeAxis(end-round(size(spec.timeAxis,1)*0.25):end),(dataFID(end-round(size(spec.timeAxis,1)*0.25):end)),0);
+% 
+% dataFID = dataFID - p;
 
 %% Call the main fitting function
 

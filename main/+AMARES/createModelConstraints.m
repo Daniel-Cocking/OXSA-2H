@@ -65,37 +65,47 @@ for compoundDx = 1:numCompounds
         end
         
         %%   Loop through peaks and parameters
-        
+
         for peakDx = 1:numPeaks
-            if optimIndex{1,peakDx}==compoundDx && strcmp(optimIndex{2,peakDx},'chemShift')
-                
+                 
                % Set chemical shift prior
+           if (isempty(pk.priorKnowledge(compoundDx).G_ChemShift) && optimIndex{1,peakDx}==compoundDx) && strcmp(optimIndex{2,peakDx},'chemShift')|| ...
+                (~isempty(pk.priorKnowledge(compoundDx).G_ChemShift) && optimIndex{1,peakDx}==pk.priorKnowledge(compoundDx).G_ChemShift) && strcmp(optimIndex{2,peakDx},'chemShift')
+                
+                if isfield(pk.priorKnowledge(compoundDx),'RelChemShift') && ~isempty(pk.priorKnowledge(compoundDx).RelChemShift)
+                %WTC: To enable relative phase shifts.
+                    chemShift_fun{compoundDx+multiplet_count} = {'@(x,a,b)x(a)+b;',peakDx,pk.priorKnowledge(compoundDx).RelChemShift};
+                        
+                else
+                % Normal mode
+                    chemShift_fun{compoundDx+multiplet_count} = {'@(x,a)x(a);',peakDx};
+                end
                
-                if ~isempty(pk.priorKnowledge(compoundDx).multiplet)
-                    
+           elseif ~isempty(pk.priorKnowledge(compoundDx).multiplet) 
+               if optimIndex{1,peakDx}==compoundDx && strcmp(optimIndex{2,peakDx},'chemShift')
+       
                     if ~isempty(pk.priorKnowledge(compoundDx).chemShiftDelta) && isempty(pk.bounds(compoundDx).chemShiftDelta)
                         chemShiftDelta = pk.priorKnowledge(compoundDx).chemShiftDelta;
                         chemShift_fun{compoundDx+multiplet_count} = {'@(x,a,b)x(a)+b;',peakDx,(multipletDx-1)*chemShiftDelta};
                     else
                         for relPeakDx = 1:numPeaks
                             if (isempty(pk.priorKnowledge(compoundDx).G_chemShiftDelta) && optimIndex{1,relPeakDx}==compoundDx && strcmp(optimIndex{2,relPeakDx},'chemShiftDelta')) || ...
-                                    (~isempty(pk.priorKnowledge(compoundDx).G_chemShiftDelta) && optimIndex{1,relPeakDx}==pk.priorKnowledge(compoundDx).G_chemShiftDelta && strcmp(optimIndex{2,relPeakDx},'chemShiftDelta'))
+                                (~isempty(pk.priorKnowledge(compoundDx).G_chemShiftDelta) && optimIndex{1,relPeakDx}==pk.priorKnowledge(compoundDx).G_chemShiftDelta && strcmp(optimIndex{2,relPeakDx},'chemShiftDelta'))
                                 chemShift_fun{compoundDx+multiplet_count} = {'@(x,a,b,c)x(a)+b*x(c);',peakDx,(multipletDx-1),relPeakDx};
                             end
                         end
                     end
-                    
-                else
-                    
+               else
+                   % Normal mode
                     chemShift_fun{compoundDx+multiplet_count} = {'@(x,a)x(a);',peakDx};
-                    
-                end
+               
+               end 
+                
+                
                 
             elseif (isempty(pk.priorKnowledge(compoundDx).G_linewidth) && optimIndex{1,peakDx}==compoundDx && strcmp(optimIndex{2,peakDx},'linewidth')) || ...
                     (~isempty(pk.priorKnowledge(compoundDx).G_linewidth) && optimIndex{1,peakDx}==pk.priorKnowledge(compoundDx).G_linewidth && strcmp(optimIndex{2,peakDx},'linewidth'))
-                
                 % Set lorenztian linewidth prior
-                
                 if isfield(pk.priorKnowledge(compoundDx),'base_linewidth') && ~isempty(pk.priorKnowledge(compoundDx).base_linewidth)
                     % LP: If we know the T2, then ADD this intrinsic linewidth to that being fitted.
                     linewidth_fun{compoundDx+multiplet_count} = {'@(x,a,b)x(a)+b;',peakDx,pk.priorKnowledge(compoundDx).base_linewidth};
@@ -167,6 +177,12 @@ end
 
 % Remove _fun from end of variable so that it is simpler to call in e.g.
 % applyModelConstraints
+% chemShift_fun
+% chemShift_fun{1}
+% chemShift_fun{2}
+% chemShift_fun{3}
+% chemShift_fun{4}
+
 constraintsCellArray.chemShift = chemShift_fun;
 constraintsCellArray.linewidth = linewidth_fun;
 constraintsCellArray.amplitude = amplitude_fun;

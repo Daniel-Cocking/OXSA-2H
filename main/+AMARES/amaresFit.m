@@ -39,6 +39,8 @@ function [fitResults, fitStatus, figureHandle, CRBResults] = amaresFit(inputFid,
 % TODO:
 %
 % Make "plotOn" a name/value option.
+% 09/02/2022 DJC removed message for no calculation of CRB's
+% 17/05/2022 added option to change step tolerance (TolX)
 
 %% Process options
 options = processVarargin(varargin{:});
@@ -90,6 +92,13 @@ if isfield(options,'MaxIter')
 else
     fitOpt.MaxIter = 100;
 end
+
+if isfield(options,'TolX')
+    fitOpt.TolX = options.TolX;
+else
+    fitOpt.TolX = 1E-006;
+end
+
 fitOpt.Jacobian = 'on';
 fitOpt.PrecondBandWidth = 0;
 fitOpt.Display = 'none';
@@ -107,7 +116,6 @@ fitStatus.resNormSq = resNormSq;
 if ~isfield(options,'quiet') || ~options.quiet
     fprintf('Iterations = %d.\nNorm of residual = %0.3f\nNorm of the data = %0.3f\nresNormSq / dataNormSq = %0.3f\n',fitStatus.OUTPUT.iterations,resNormSq,dataNormSq,fitStatus.relativeNorm)
 end
-
 %% Finally calculate the fitted values and the CRBs.
 fitResults = AMARES.applyModelConstraints(xFit,constraintsCellArray);
 
@@ -154,7 +162,7 @@ end
 if nargout == 4
     CRBResults = AMARES.estimateCRB(exptParams.imagingFrequency, exptParams.dwellTime, exptParams.beginTime, noise_var, xFit, constraintsCellArray);
 else
-    disp('CRBs not calculated, add optional 4th output argument to call to calculate.')
+%     disp('CRBs not calculated, add optional 4th output argument to call to calculate.')
 end
 
 %% Store data to re-run CRB calculation later and to plot fit
@@ -179,7 +187,6 @@ if plotOn % Optionally suppress the figure if we are fitting multiple voxels to 
     else
         figureHandle = plotOn;
     end
-    
     if isfield(options,'apodization')
         if ischar(options.apodization)
             peakIndex = strcmp({pkWithLinLsq.bounds.peakName},options.apodization);

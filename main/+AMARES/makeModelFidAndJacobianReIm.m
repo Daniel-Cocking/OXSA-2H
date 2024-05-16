@@ -40,7 +40,7 @@ if nargout > 1
     % P must be calculated at run time, because it can depend on the
     % current value of x.
     P = AMARES.compute_P_Matrix(x,constraintsCellArray);
-    
+
     Jacobian = Jacobian * P;
     
     if ~complexOutput

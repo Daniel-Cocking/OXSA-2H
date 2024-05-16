@@ -1,4 +1,4 @@
-function outStruct = PK_SinglePeak()
+function outStruct = PK_DQF()
 %% .M file to assemble the bounds, priorKnowledge and initialValues structs for the matlab implementation of AMARES
 
 %Each of B, PK and IV is a 1xN struct, where N is the number of peaks. Note
@@ -22,21 +22,26 @@ function outStruct = PK_SinglePeak()
 fields.Bounds = {
 'peakName',                                 'chemShift',     'linewidth',   'amplitude',    'phase',     'chemShiftDelta',   'amplitudeRatio'};
 values.boundsCellArray = {...
-'Peak1',                                     [-inf,inf],       [0,inf],   [0,inf],        [-180,180],     [],                 [];
+'Peak1',                                     [2, 6],       [0,inf],   [0,inf],        [-180,180],     [],                 [];
+'Peak2',                                     [2, 6],       [0,inf],   [0,inf],        [-180,180],     [],                 [];
 };
 
 %% initialValues
+% 5.1 5
+% 4.5 5
 fields.IV = {
 'peakName',                                   'chemShift',     'linewidth',   'amplitude',    'phase'};
 values.IVCellArray = {...
-'Peak1',                                        0,               10,         1,               0;
+'Peak1',                                        5.5,               5,         1,               0;
+'Peak2',                                        3,               5,         1,               0;
 };
 
 %% 
 fields.PK = {
-'peakName',                                 'multiplet',     'chemShiftDelta',   'amplitudeRatio',    'G_linewidth',   'G_amplitude',    'G_phase', 'G_ChemShift',  'G_chemShiftDelta',   'refPeak'};
+'peakName',                                 'multiplet',     'chemShiftDelta',   'amplitudeRatio',    'G_linewidth',   'G_amplitude',    'G_phase',  'RelPhase',   'G_ChemShift',  'G_chemShiftDelta',   'refPeak'};
 values.PKCellArray = {...
-'Peak1',                                      [],             [],               [],                  [],            [],               [],           [],             [],                    0;
+'Peak1',                                      [],             [],               [],                    1,               1,               1,           0,              [],            [],                    0;
+'Peak2',                                      [],             [],               [],                    1,               1,               1,           180,            [],            [],                    0;
 };
 
 %% Pass to the function which assembles the constraints into structs and saves them

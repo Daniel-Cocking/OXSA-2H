@@ -20,9 +20,8 @@ function [P] = compute_P_Matrix(optimVar, func)
 
 % Combine into canonical ordering...
 params = AMARES.getCanonicalOrdering();
-
+% func.chemShift{1}
 for fDx =1:numel(params)
-    
     funcs(fDx,:) = func.(params{fDx}); %#ok<AGROW>
     
 end

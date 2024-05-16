@@ -1,4 +1,4 @@
-function pk = preparePriorKnowledge(fields,values)
+function pk = preparePriorKnowledge(fields,values,varargin)
 
 %% Loop through and assemble structs
 for peakDx = 1:size(values.boundsCellArray,1)
@@ -20,4 +20,7 @@ for peakDx = 1:size(values.PKCellArray,1)
 end
 
 %% Check the prior knowledge for consistency.
-AMARES.checkConstraints(pk);
+options = processVarargin(varargin{:});
+if ~isfield(options,'quiet')
+    AMARES.checkConstraints(pk);
+end

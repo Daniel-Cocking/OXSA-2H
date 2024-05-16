@@ -1,10 +1,10 @@
 %% Example of using AMARES.amares using 31P phantom data.
-
+clear; close all;
 %% Make sure relevant code is added to path.
 mydir = fullfile(fileparts(mfilename('fullpath')));
 cd(mydir)
 cd ..
-startup
+% startup
 %% Load the struct 'spec' which contains:
 %              'spectra'/'signals'
 %              'dwellTime'
@@ -36,8 +36,7 @@ instanceNum = 1;
 voxelNum = 3;
 
 %% Set the prior knowledge.
-
-pk = AMARES.priorKnowledge.PK_SinglePeak;
+pk = AMARES.priorKnowledge.PK_SinglePeak_DJC;
 % OR e.g. :
 % pk = AMARES.priorKnowledge.PK_SinglePeak_voigt;
 
@@ -45,10 +44,9 @@ pk = AMARES.priorKnowledge.PK_SinglePeak;
 % 0 to not show plot, 1 to give lowest unused figure handle, or a
 % double to assign figure handle. e.g. :
 
-showPlot = 8008;
-
+showPlot = 1;
 %% Run AMARES.amares
 
-Results = AMARES.amares(spec, instanceNum ,voxelNum, beginTime, expOffset, pk, showPlot);
+Results = AMARES.amares(spec, instanceNum ,voxelNum, beginTime, expOffset, pk, showPlot,'quiet',1);
 
 sprintf('Processing complete!\n')

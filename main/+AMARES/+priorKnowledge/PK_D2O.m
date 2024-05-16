@@ -1,4 +1,5 @@
-function outStruct = PK_SinglePeak()
+function outStruct = PK_D2O()
+
 %% .M file to assemble the bounds, priorKnowledge and initialValues structs for the matlab implementation of AMARES
 
 %Each of B, PK and IV is a 1xN struct, where N is the number of peaks. Note
@@ -16,30 +17,35 @@ function outStruct = PK_SinglePeak()
 %                                        G_chemShiftDelta
 %                                        refPeak
 
-%% Single peak at 0ppm
+%% 7T file
+% This is adapted from version 7 from PK_7T_Cardiac, attempted to implent 
+% on DMI 7T. Adapted to work on Hevay water loaded spectra (single peak)
+% 17/5/2022 Cocking
+
 
 %% Bounds
 fields.Bounds = {
-'peakName',                                 'chemShift',     'linewidth',   'amplitude',    'phase',     'chemShiftDelta',   'amplitudeRatio'};
+'peakName',                        'chemShift',     'linewidth',   'amplitude',    'phase',     'chemShiftDelta',   'amplitudeRatio'};
 values.boundsCellArray = {...
-'Peak1',                                     [-inf,inf],       [0,inf],   [0,inf],        [-180,180],     [],                 [];
+{'Water'},                         [-inf, inf],       [0, inf],        [0,inf],     [-180,180],      [],                [];
 };
 
 %% initialValues
 fields.IV = {
 'peakName',                                   'chemShift',     'linewidth',   'amplitude',    'phase'};
 values.IVCellArray = {...
-'Peak1',                                        0,               10,         1,               0;
+{'Water'},                                      0,            10,          1,               0;
 };
 
 %% 
 fields.PK = {
-'peakName',                                 'multiplet',     'chemShiftDelta',   'amplitudeRatio',    'G_linewidth',   'G_amplitude',    'G_phase', 'G_ChemShift',  'G_chemShiftDelta',   'refPeak'};
+'peakName',                                 'multiplet',     'chemShiftDelta',   'amplitudeRatio',    'G_linewidth',   'G_amplitude',    'G_phase'   ,'RelPhase',  'G_chemShiftDelta', 'G_ChemShift', 'refPeak'};
 values.PKCellArray = {...
-'Peak1',                                      [],             [],               [],                  [],            [],               [],           [],             [],                    0;
+{'Water'},                                      [],            [],                    [],                     [],            [],            [],          [],           [],             [],               1;
 };
+
 
 %% Pass to the function which assembles the constraints into structs and saves them
 outStruct = AMARES.priorKnowledge.preparePriorKnowledge(fields,values,'quiet',1);
-outStruct.svnVersion = '$Rev: 6782 $'; 
-outStruct.svnHeader = '$Header: https://cardiosvn.fmrib.ox.ac.uk/repos/crodgers/FromJalapeno/MATLAB/RodgersSpectroToolsV2/main/+AMARES/+priorKnowledge/PK_SinglePeak.m 6782 2013-07-26 15:07:41Z crodgers $';
+% outStruct.svnVersion = '$Rev: 7662 $';
+% outStruct.svnHeader = '$Header: https://cardiosvn.fmrib.ox.ac.uk/repos/crodgers/FromJalapeno/MATLAB/RodgersSpectroToolsV2/main/+AMARES/+priorKnowledge/PK_7T_Cardiac.m 7662 2014-05-07 13:26:32Z will $';

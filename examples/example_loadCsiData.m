@@ -4,7 +4,7 @@
 mydir = fullfile(fileparts(mfilename('fullpath')));
 cd(mydir)
 cd ..
-startup
+% startup
 
 %%
 % Either:

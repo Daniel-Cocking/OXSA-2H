@@ -41,7 +41,7 @@ end
 
 %% Check that a group number starts with the first peak in the group
 
- groupNames = {'G_linewidth',   'G_amplitude',    'G_phase'   ,  'G_chemShiftDelta'};
+ groupNames = {'G_linewidth',   'G_amplitude',    'G_phase'   ,  'G_chemShiftDelta', 'G_chemShift'};
  
  for gnDx = 1:numel(groupNames)
      

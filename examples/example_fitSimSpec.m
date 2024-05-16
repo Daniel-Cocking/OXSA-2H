@@ -4,7 +4,7 @@
 mydir = fullfile(fileparts(mfilename('fullpath')));
 cd(mydir)
 cd ..
-startup
+% startup
 
 %% Load Data
 % fids contains 11 simulated 7T cardiac spectra of different noise levels.

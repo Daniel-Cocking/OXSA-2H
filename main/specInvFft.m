@@ -11,12 +11,12 @@ function [fid] = specInvFft(spec,dim)
 % zz=randn(2048,1)+1i*randn(2048,1);maxdiff(zz,specFft(specInvFft(zz)))
 % OR
 % zz=randn(2048,128)+1i*randn(2048,128);maxdiff(zz,specFft(specInvFft(zz)));maxdiff(zz,specFft(specInvFft(zz,2),2))
-
+% Adapted: Daniel Cocking Jan 2022, removed '*size(spec,dim)
 if nargin<2
     dim = 1;
 end
 
-fid = ifft(fftshift(spec,dim),[],dim)*size(spec,dim);
+fid = ifft(fftshift(spec,dim),[],dim);
 
 perm = [dim 1:(dim-1) (dim+1):numel(size(fid))];
 
@@ -24,6 +24,6 @@ perm = [dim 1:(dim-1) (dim+1):numel(size(fid))];
 fid = permute(fid,perm);
 
 % t=0 point is treated differently by convention for a FID
-fid(1,:) = 2*fid(1,:);
+% fid(1,:) = 2*fid(1,:);
 
 fid = ipermute(fid,perm);

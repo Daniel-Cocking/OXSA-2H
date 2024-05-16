@@ -12,6 +12,8 @@ function [spec] = specFft(fid,dim)
 % OR
 % zz=randn(2048,128)+1i*randn(2048,128);maxdiff(zz,specFft(specInvFft(zz)));maxdiff(zz,specFft(specInvFft(zz,2),2))
 
+% Adapted Daniel Cocking 2022 removed division of size(spec,1) in fft, and
+% the x0.5 factor.
 if nargin<2
     dim = 1;
 end
@@ -22,6 +24,6 @@ perm = [dim 1:(dim-1) (dim+1):numel(size(fid))];
 spec = permute(fid,perm);
 
 % t=0 point is treated differently by convention for a FID
-spec(1,:) = spec(1,:) * 0.5;
+% spec(1,:) = spec(1,:) * 0.5;
 
-spec = ipermute(fftshift(fft(spec,[],1),1)/size(spec,1),perm);
+spec = ipermute(fftshift(fft(spec,[],1),1),perm);

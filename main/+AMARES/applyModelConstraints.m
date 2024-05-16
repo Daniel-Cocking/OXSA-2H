@@ -14,17 +14,16 @@ function modelParams = applyModelConstraints(optimVar, func)
 % Current values for overall model parameters subject to the current vector
 % of variable parameters being varied by lsqcurvefit.
 
+%Cycles through eeac parameter chemical shift etc.
 fn = fieldnames(func);
-
 for fnDx = 1:numel(fn)
-modelParams.(fn{fnDx}) = applyIt(optimVar,func.(fn{fnDx}));
+    modelParams.(fn{fnDx}) = applyIt(optimVar,func.(fn{fnDx}));
 end
 
 end
 
 function thisOut = applyIt(optimVar,funcs)
 thisOut = zeros(size(funcs));
-
 for idx=1:numel(funcs)
     thisFunc = funcs{idx};
     switch thisFunc{1}

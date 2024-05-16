@@ -1,10 +1,10 @@
 %% Example of methods of processing multiple voxels.
-
+clear; clc; close all;
 %% Make sure relevant code is added to path.
 mydir = fullfile(fileparts(mfilename('fullpath')));
 cd(mydir)
 cd ..
-startup
+% startup
 
 %%
 % Either:
